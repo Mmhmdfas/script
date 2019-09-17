@@ -33,7 +33,7 @@ function sendpriv() {
                         -d chat_id=784548477 \
                         -d "disable_web_page_preview=true" \
                         -d "parse_mode=html" \
-                        -d text="DarkEagle Started%0AJob Name: DragonTC 9%0A<b>Pipeline jobs</b> <a href='${CIRCLE_BUILD_URL}'>here</a>"
+                        -d text="DarkEagle Started%0AJob Name: DragonTC 10%0A<b>Pipeline jobs</b> <a href='${CIRCLE_BUILD_URL}'>here</a>"
 }
 # Push kernel to channel
 function push() {
