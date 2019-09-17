@@ -2,7 +2,7 @@
 IMAGE=$(pwd)/out/arch/arm64/boot/Image.gz-dtb
 git clone -j32 https://github.com/najahiiii/priv-toolchains.git -b non-elf/gcc-9.2.0/arm64 gcc
 git clone -j32 https://github.com/najahiiii/priv-toolchains.git -b non-elf/gcc-9.2.0/arm gcc32
-git clone -j32 https://github.com/crDroidMod/android_prebuilts_clang_host_linux-x86_clang-5799447.git dtc
+git clone https://github.com/crDroidMod/android_prebuilts_clang_host_linux-x86_clang-5696680.git dtc
 git clone https://github.com/Mmhmdfas/anykernel3.git
 echo "Done"
 GCC="$(pwd)/gcc/bin/aarch64-linux-gnu-"
