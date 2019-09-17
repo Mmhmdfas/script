@@ -16,7 +16,7 @@ export KBUILD_BUILD_HOST=Buildbot
 # sticker plox
 function sticker() {
         curl -s -X POST "https://api.telegram.org/bot905061652:AAHKYGa3P9xkLoCK52RjDNW8s-AEf6twhNQ/sendSticker" \
-                        -d sticker="CAADBQADkQAD04yjKvQ5SCzijDHoFgQ" \
+                        -d sticker="CAADBQADCAEAAn1Cwy6ay-eWBf1msRYE" \
                         -d chat_id=-1001168028608
 }
 # Send info plox
