@@ -30,7 +30,7 @@ function sendinfo() {
 # Send private info
 function sendpriv() {
         curl -s -X POST "https://api.telegram.org/bot905061652:AAHKYGa3P9xkLoCK52RjDNW8s-AEf6twhNQ/sendMessage" \
-                        -d chat_id=-1001168028608 \
+                        -d chat_id=784548477 \
                         -d "disable_web_page_preview=true" \
                         -d "parse_mode=html" \
                         -d text="DarkEagle Started%0AJob Name: DragonTC 9%0A<b>Pipeline jobs</b> <a href='${CIRCLE_BUILD_URL}'>here</a>"
