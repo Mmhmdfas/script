@@ -1,18 +1,18 @@
 #!bin/bash
 IMAGE=$(pwd)/out/arch/arm64/boot/Image.gz-dtb
-git clone https://github.com/najahiiii/priv-toolchains.git -b non-elf/gcc-9.2.0/arm64 gcc
-git clone https://github.com/najahiiii/priv-toolchains.git -b non-elf/gcc-9.2.0/arm gcc32
+git clone -j32 https://github.com/najahiiii/priv-toolchains.git -b non-elf/gcc-9.2.0/arm64 gcc
+git clone -j32 https://github.com/najahiiii/priv-toolchains.git -b non-elf/gcc-9.2.0/arm gcc32
 git clone -j32 https://github.com/NusantaraDevs/DragonTC dtc
 git clone https://github.com/Mmhmdfas/anykernel3.git
 echo "Done"
 GCC="$(pwd)/gcc/bin/aarch64-linux-gnu-"
 GCC32="$(pwd)/gcc32/bin/arm-linux-gnueabi-"
 CT="$(pwd)/dtc/bin/clang"
-tanggal=$(TZ=Asia/Jakarta date +'%H%M-%d%m%y')
+tanggal=$(TZ=Etc/GMT-7 date +'%H%M-%d%m%y')
 START=$(date +"%s")
 export ARCH=arm64
-export KBUILD_BUILD_USER=DarkEagle
-export KBUILD_BUILD_HOST=Buildbot
+export KBUILD_BUILD_USER=Mmhmdfas
+export KBUILD_BUILD_HOST=sadboystory-hopeuwithme
 # sticker plox
 function sticker() {
         curl -s -X POST "https://api.telegram.org/bot905061652:AAHKYGa3P9xkLoCK52RjDNW8s-AEf6twhNQ/sendSticker" \
