@@ -11,8 +11,8 @@ CT="$(pwd)/dtc/bin/clang"
 tanggal=$(TZ=Etc/GMT-7 date +'%H%M-%d%m%y')
 START=$(date +"%s")
 export ARCH=arm64
-export KBUILD_BUILD_USER=Mmhmdfas
-export KBUILD_BUILD_HOST=sadboystory-hopeuwithme
+export KBUILD_BUILD_USER=Sadboystory
+export KBUILD_BUILD_HOST=I•HopeUrWithMe
 # sticker plox
 function sticker() {
         curl -s -X POST "https://api.telegram.org/bot905061652:AAHKYGa3P9xkLoCK52RjDNW8s-AEf6twhNQ/sendSticker" \
