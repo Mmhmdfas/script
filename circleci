@@ -12,7 +12,7 @@ tanggal=$(TZ=Etc/GMT-7 date +'%H%M-%d%m%y')
 START=$(date +"%s")
 export ARCH=arm64
 export KBUILD_BUILD_USER=Mmhmdfas
-export KBUILD_BUILD_HOST=ip-189-233-79-121
+export KBUILD_BUILD_HOST=LinuxClangKernel
 # sticker plox
 function sticker() {
         curl -s -X POST "https://api.telegram.org/bot905061652:AAHKYGa3P9xkLoCK52RjDNW8s-AEf6twhNQ/sendSticker" \
