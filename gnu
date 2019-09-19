@@ -1,9 +1,9 @@
 #!bin/bash
 IMAGE=$(pwd)/out/arch/arm64/boot/Image.gz-dtb
-git clone https://github.com/Haseo97/Clang-10.0.0.git -b clang-10.0.0 clang
-git clone https://github.com/najahiiii/priv-toolchains.git -b non-elf/gcc-10.0.0/arm gcc32
-git clone https://github.com/najahiiii/priv-toolchains.git -b non-elf/gcc-10.0.0/arm64 gcc
-git clone https://github.com/Mmhmdfas/anykernel3.git
+git clone -j32 https://github.com/Haseo97/Clang-10.0.0.git -b clang-10.0.0 clang
+git clone -j32 https://github.com/najahiiii/priv-toolchains.git -b non-elf/gcc-10.0.0/arm gcc32
+git clone -j32 https://github.com/najahiiii/priv-toolchains.git -b non-elf/gcc-10.0.0/arm64 gcc
+git clone https://github.com/Mmhmdfas/anykernel3.git --depth=1 anykernel3
 echo "Done"
 GCC="$(pwd)/gcc/bin/aarch64-linux-gnu-"
 GCC32="$(pwd)/gcc32/bin/arm-linux-gnueabi-"
