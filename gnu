@@ -25,7 +25,7 @@ function sendinfo() {
                         -d chat_id=-1001168028608 \
                         -d "disable_web_page_preview=true" \
                         -d "parse_mode=html" \
-                        -d text="<b>DarkEagle</b> new build is up%0AFor device <b>ROLEX</b> (Redmi 4A)%0Abranch <code>$(git rev-parse --abbrev-ref HEAD)</code> (Android 9.0/Pie)%0AUnder commit <code>$(git log --pretty=format:'"%h : %s"' -1)</code>%0ACompiler: <code>$(${CT} --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g')</code>%0AStarted on <code>$(TZ=Etc/GMT-7 date)</code>%0A<b>Build Status:</b> #untested"
+                        -d text="<b>DarkEagle</b> new build is up%0AFor device <b>ROLEX</b> (Redmi 4A)%0Abranch <code>$(git rev-parse --abbrev-ref HEAD)</code> (Android 9.0/Pie)%0AUnder commit <code>$(git log --pretty=format:'"%h : %s"' -1)</code>%0ACompiler: <code>$(${CT} --version | head -n 1 | perl -pe 's/\(git.*?\)//gs' | sed -e 's/  */ /g')</code>%0AStarted on <code>$(TZ=Etc/GMT-7 date)</code>%0A<b>Build Status:</b> #untested"
 }
 # Send private info
 function sendpriv() {
@@ -33,12 +33,12 @@ function sendpriv() {
                         -d chat_id=784548477 \
                         -d "disable_web_page_preview=true" \
                         -d "parse_mode=html" \
-                        -d text="DarkEagle Started%0AJob Name: DragonTC 10%0A<b>Pipeline jobs</b> <a href='${CIRCLE_BUILD_URL}'>here</a>"
+                        -d text="DarkEagle Started%0AStarted on <code>$(TZ=Etc/GMT-7 date)</code>%0AJob Name: DragonTC 10%0A<b>Pipeline jobs</b> <a href='${CIRCLE_BUILD_URL}'>here</a>"
 }
 # Push kernel to channel
 function push() {
         cd anykernel3
-	ZIP=$(echo dark*.zip)
+	ZIP=$(echo green*.zip)
 	curl -F document=@$ZIP "https://api.telegram.org/bot905061652:AAHKYGa3P9xkLoCK52RjDNW8s-AEf6twhNQ/sendDocument" \
 			-F chat_id="-1001168028608" \
 			-F "disable_web_page_preview=true" \
@@ -69,7 +69,7 @@ function compile() {
 # Zipping
 function zipping() {
         cd anykernel3
-        zip -r9 darkeagle-pie-${tanggal}.zip *
+        zip -r9 greenforce_rolex_${tanggal}.zip *
         cd ..
 }
 sticker
