@@ -60,7 +60,7 @@ function finerr() {
 # Compile plox
 function compile() {
         make -s -C $(pwd) O=out rolex_defconfig
-        make -s -C $(pwd) CC=${CT} CROSS_COMPILE_ARM32=${GCC32} CROSS_COMPILE=${GCC} O=out -j32 -l32 2>&1| tee build.log
+        make -s -C $(pwd) CC=${CT} CROSS_COMPILE=${GCC} O=out -j32 -l32 2>&1| tee build.log
             if ! [ -a $IMAGE ]; then
                 finerr
                 exit 1
