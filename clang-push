@@ -1,0 +1,84 @@
+#!bin/bash
+IMAGE=$(pwd)/out/arch/arm64/boot/Image.gz-dtb
+git clone --quiet -j32 https://github.com/fadlyas07/android-prebuilts-clang-mirror --depth=1 -b clang-9.0.8-9.0 clang
+git clone --quiet -j32 https://github.com/fadlyas07/android-prebuilts-aarch64-mirror --depth=1 -b linaro-6.5.0 gcc
+git clone --quiet -j32 https://github.com/fadlyas07/AnyKernel3 --depth=1 anykernel3
+GCC="$(pwd)/gcc/bin/aarch64-linux-gnu-"
+CT="$(pwd)/clang/bin/clang"
+ID="$(echo $CIRCLE_WORKFLOW_ID | cut -c 1-8)
+SHA=$(echo $CIRCLE_SHA1 | cut -c 1-8)
+NUM=$(echo $CIRCLE_BUILD_NUM | cut -c 1-2)
+TGL=$(TZ=Asia/Jakarta date +'%H%M-%d%m%y')
+START=$(date +"%s")
+export ARCH=arm64
+export KBUILD_BUILD_USER=Mhmmdfas
+export KBUILD_BUILD_HOST=${ID}-${NUM}
+export USE_CCACHE=1
+export CACHE_DIR=~/.ccache
+# sticker plox
+function sticker() {
+        curl -s -X POST "https://api.telegram.org/bot961309167:AAHAtYQIDZgCpL8V_Pn5LYyozC5V0KJy3SE/sendSticker" \
+                        -d sticker="CAADBQAD3AADfULDLpHzWZltpdJ5FgQ" \
+                        -d chat_id=-1001158707255
+}
+# Send info plox
+function sendinfo() {
+        curl -s -X POST "https://api.telegram.org/bot961309167:AAHAtYQIDZgCpL8V_Pn5LYyozC5V0KJy3SE/sendMessage" \
+                        -d chat_id=-1001158707255 \
+                        -d "disable_web_page_preview=true" \
+                        -d "parse_mode=html" \
+                        -d text="<b>SteelHeart CI new build is up!!</b> %0A<b>For device:</b> <code>Xiaomi Redmi 4A</code>%0A<b>From branch:</b> <code>$(git rev-parse --abbrev-ref HEAD)</code><b>For Android:</b> <code>9.0-10.0</code>%0A<b>Kernel Version:</b> <code>3.18.140</code>%0A<b>Latest Commit:</b> <code>$(git log --pretty=format:'"%h : %s"' -1)</code>%0A<b>Compiler</b> <code>$(${GCC}gcc --version | head -n 1)</code>%0A<b>Clang</b> <code>$(${CT} --version | head -n 1 | perl -pe 's/\(.*?\)//gs' | sed -e 's/  */ /g')</code>%0A<b>Started on</b> <code>$(TZ=Asia/Jakarta date)</code>%0A<b>Build Status:</b> #Untested"
+}
+# Send private info
+function sendpriv() {
+        curl -s -X POST "https://api.telegram.org/bot961309167:AAHAtYQIDZgCpL8V_Pn5LYyozC5V0KJy3SE/sendMessage" \
+                        -d chat_id=784548477 \
+                        -d "disable_web_page_preview=true" \
+                        -d "parse_mode=html" \
+                        -d text="SteelHeart Started%0AStarted on <code>$(TZ=Etc/GMT-7 date)</code>%0AJob Name: Compile Kornol%0A<b>Pipeline jobs</b> <a href='${CIRCLE_BUILD_URL}'>here</a>"
+}
+# Push kernel to channel
+function push() {
+        cd anykernel3
+	ZIP=$(echo Steel*.zip)
+	curl -F document=@$ZIP "https://api.telegram.org/bot961309167:AAHAtYQIDZgCpL8V_Pn5LYyozC5V0KJy3SE/sendDocument" \
+			-F chat_id="-1001158707255" \
+			-F "disable_web_page_preview=true" \
+			-F "parse_mode=html" \
+			-F caption="Build took $(($DIFF / 60)) minute(s) and $(($DIFF % 60)) second(s)."
+}
+# Fin Error
+function finerr() {
+        paste
+        curl -s -X POST "https://api.telegram.org/bot961309167:AAHAtYQIDZgCpL8V_Pn5LYyozC5V0KJy3SE/sendMessage" \
+			-d chat_id="-1001158707255" \
+			-d "disable_web_page_preview=true" \
+			-d "parse_mode=markdown" \
+			-d text="Build throw an error(s)."
+        exit 1
+}
+# Compile plox
+function compile() {
+        make -s -C $(pwd) O=out rolex_defconfig
+        make -s -C $(pwd) CC=${CT} CROSS_COMPILE_ARM32=${GCC32} CROSS_COMPILE=${GCC} O=out -j32 -l32 2>&1| tee build.log
+            if ! [ -a $IMAGE ]; then
+                finerr
+                exit 1
+            fi
+        cp out/arch/arm64/boot/Image.gz-dtb anykernel3/zImage
+        paste
+}
+# Zipping
+function zipping() {
+        cd anykernel3
+        zip -r9 Steelheart-rolex-${TGL}.zip *
+        cd ..
+}
+sticker
+sendinfo
+sendpriv
+compile
+zipping
+END=$(date +"%s")
+DIFF=$(($END - $START))
+push
