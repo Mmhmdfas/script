@@ -1,6 +1,6 @@
 #!bin/bash
 IMAGE=$(pwd)/out/arch/arm64/boot/Image.gz-dtb
-git clone --quiet -j32 https://github.com/fadlyas07/android-prebuilts-clang-mirror --depth=1 -b clang-9.0.8-9.0 clang
+git clone --quiet -j32 https://github.com/crDroidMod/android_prebuilts_clang_host_linux-x86_clang-5900059 --depth=1 clang
 git clone --quiet -j32 https://github.com/fadlyas07/android-prebuilts-aarch64-mirror --depth=1 -b linaro-6.5.0 gcc
 git clone --quiet -j32 https://github.com/fadlyas07/AnyKernel3 --depth=1 anykernel3
 GCC="$(pwd)/gcc/bin/aarch64-linux-gnu-"
@@ -10,6 +10,7 @@ SHA=$(echo $CIRCLE_SHA1 | cut -c 1-8)
 NUM=$(echo $CIRCLE_BUILD_NUM | cut -c 1-2)
 TGL=$(TZ=Asia/Jakarta date +'%H%M-%d%m%y')
 START=$(date +"%s")
+export TZ=":Asia/Jakarta"
 export ARCH=arm64
 export KBUILD_BUILD_USER=Mhmmdfas
 export KBUILD_BUILD_HOST=${ID}-${NUM}
@@ -27,7 +28,7 @@ function sendinfo() {
                         -d chat_id=-1001158707255 \
                         -d "disable_web_page_preview=true" \
                         -d "parse_mode=html" \
-                        -d text="<b>SteelHeart CI new build is up!!</b> %0A<b>For device:</b> <code>Xiaomi Redmi 4A</code>%0A<b>From branch:</b> <code>$(git rev-parse --abbrev-ref HEAD)</code><b>For Android:</b> <code>9.0-10.0</code>%0A<b>Kernel Version:</b> <code>3.18.140</code>%0A<b>Latest Commit:</b> <code>$(git log --pretty=format:'"%h : %s"' -1)</code>%0A<b>Compiler</b> <code>$(${GCC}gcc --version | head -n 1)</code>%0A<b>Clang</b> <code>$(${CT} --version | head -n 1 | perl -pe 's/\(.*?\)//gs' | sed -e 's/  */ /g')</code>%0A<b>Started on</b> <code>$(TZ=Asia/Jakarta date)</code>%0A<b>Build Status:</b> #Untested"
+                        -d text="<b>SteelHeart CI new build is up!!</b>%0A<b>For device:</b> <code>Xiaomi Redmi 4A</code>%0A<b>From branch:</b><code>$(git rev-parse --abbrev-ref HEAD)</code>%0A<b>For Android:</b> <code>9.0-10.0</code>%0A<b>Kernel Version:</b> <code>Linux 3.18.140</code>%0A<b>UTS version:</b> <code>${UTS}</code>%0A<b>Latest Commit:</b> <code>$(git log --pretty=format:'"%h : %s"' -1)</code>%0A<b>Compiler:</b> <code>$(${CT} --version | head -n 1 | perl -pe 's/\(.*?\)//gs' | sed -e 's/  */ /g')</code>%0A<b>Build Status:</b> #untested"
 }
 # Send private info
 function sendpriv() {
@@ -65,6 +66,7 @@ function compile() {
                 finerr
                 exit 1
             fi
+        UTS=$(cat out/include/generated/compile.h | grep UTS_VERSION | cut -d '"' -f2)
         cp out/arch/arm64/boot/Image.gz-dtb anykernel3/zImage
         paste
 }
