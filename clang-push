@@ -76,7 +76,7 @@ function compile() {
 function zipping() {
         cd anykernel3
         zip -r9 Steelheart-rolex-${TANGGAL}.zip *
-        cd ..
+        cd .. #happy
 }
 rm -rf out
 sticker
